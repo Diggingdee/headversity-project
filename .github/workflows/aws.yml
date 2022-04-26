@@ -48,10 +48,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       
-    - name: Dotnet run
-      uses: actions/setup-dotnet@v1
-      with:
-          dotnet-version: '6.0' # SDK Version to use; x will use the latest version of the 3.1 channel
+    
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
