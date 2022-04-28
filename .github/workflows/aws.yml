@@ -30,7 +30,7 @@ on:
   push:
     branches: [master]
 
-- name: Git setup 
+- name: Git setup
         uses: actions/checkout@v2
   
   
