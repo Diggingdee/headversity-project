@@ -30,10 +30,9 @@ on:
   push:
     branches: [master]
 
---- 
-- 
-  name: "Git setup 
-  uses:actions/checkout@v2"
+- name: Git setup 
+        uses: actions/checkout@v2
+  
   
 
 - name: Dotnet run
