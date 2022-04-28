@@ -32,7 +32,8 @@ on:
 
 --- 
 - 
-  name: "Git setup uses:actions/checkout@v2"
+  name: "Git setup 
+  uses:actions/checkout@v2"
   
 
 - name: Dotnet run
