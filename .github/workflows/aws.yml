@@ -28,8 +28,8 @@ name: Deploy dotnet EBS
 
 on:
   push:
-    branches: [master]
-
+    branches: [ master ]
+---
 - name: Git setup
         uses: actions/checkout@v2
   
