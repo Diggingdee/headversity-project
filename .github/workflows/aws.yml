@@ -55,8 +55,8 @@ on:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }} # your aws access key that was added to github secret
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # your aws secret key that was added to github secret
-          application_name: ${{ env.EBS_APP_NAME }} # app name to create with when deploying
-          environment_name: ${{ env.EBS_ENV_NAME }} # environment name where to deploy the project
+          application_name: ${{ headversity weather app }} # app name to create with when deploying
+          environment_name: ${{ Headversityweatherapp-env }} # environment name where to deploy the project
           version_label: ${{ github.run_id }} # for versioning. Used to deploy an existing version in Beanstalk
           region: ${{ env.AWS_REGION }}
           deployment_package: site.zip
