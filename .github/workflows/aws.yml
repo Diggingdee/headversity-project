@@ -11,14 +11,12 @@ env:
   push:
     branches: [ master ]
     
-    workflow_dispatch:
-    
     jobs:
-    build:
+    CI build:
     runs-on: ubuntu-latest
     
   steps:
-    - name: Git setup
+    - name: Git clone setup
       uses: actions/checkout@v2
       
     - name: Setup .NET 6.0.x
@@ -28,18 +26,17 @@ env:
       with:
 
         dotnet-version: 6.0.x
----
-  name: Restore dependencies
+
+    - name: Restore dependencies
+      run: dotnet restore
    
-   run: dotnet restore
-   
-   - name: Publish application        
+    - name: Publish application        
 
-   run: dotnet publish --output publish --configuration Release --framework net6.0 --runtime win-x64 --self-contained true
+      run: dotnet publish --output publish --configuration Release --framework net6.0 --runtime win-x64 --self-contained true
 
-- name: ZIP built application      
+    - name: ZIP built application      
 
-   run: |
+      run: |
 
         cd ./publish
 
@@ -49,27 +46,26 @@ env:
 
         cd ../           
 
-   env:   
+      env:   
 
                ZIP_FILE: "headversityj2.zip"
 
 
-- name: Configure AWS credentials
+    - name: Configure AWS credentials
 
       uses: aws-actions/configure-aws-credentials@v1
 
-      with: "headversityj2.zip"
+      with: 
 
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
 
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-        aws-region: ${{ env.AWS_REGION }}
+      aws-region: ${{ env.AWS_REGION }}
+---
+     - name: Copy ZIP file into S3 bucket
 
-
- - name: Copy ZIP file into AWS S3 bucket
-
-      run: aws s3 cp ${{ env.ZIP_FILE }} s3://${{ env.AWS_BUCKET }}
+        run: aws s3 cp ${{ env.ZIP_FILE }} s3://${{ env.AWS_BUCKET }}/
 
       env:
 
