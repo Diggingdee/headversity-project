@@ -1,14 +1,6 @@
-name: Deploy dotnet EBS
-
-
-
-on:
-  push:
-    branches: [ master ]
-
-
-jobs:
-  my_ci_part:    runs-on: ubuntu-latest
+#---------------------------------------------------------------------
+# GitHub Action Workflow to Deploy  to AWS ElasticBeanstalk
+#---------------------------------------------------------------------
 
 
 name: CI-CD-Pipeline-to-AWS-ElasticBeastalk
@@ -17,8 +9,16 @@ env:
   EB_APPLICATION_NAME       : "myheadveristy"
   EB_ENVIRONMENT_NAME       : "Myheadveristy-env"
   AWS_REGION_NAME           : "us-east-1"
+  
+  on:
+  push:
+    branches: [ master ]
+    
+    jobs:
+  my_ci_part:    
+  runs-on: ubuntu-latest
    
-   steps:
+  steps:
     - name: Git clone our repo
       uses: actions/checkout@v1
       
