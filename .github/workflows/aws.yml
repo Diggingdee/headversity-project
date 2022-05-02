@@ -1,6 +1,3 @@
-#---------------------------------------------------------------------
-# GitHub Action Workflow to Deploy  to AWS ElasticBeanstalk
-#---------------------------------------------------------------------
 
 
 name: CI-CD-Pipeline-to-AWS-ElasticBeastalk
