@@ -26,7 +26,7 @@ env:
       with:
 
         dotnet-version: 6.0.x
-
+---
   name: "Restore dependencies"
    
    run: dotnet restore
@@ -56,7 +56,7 @@ env:
 
       uses: aws-actions/configure-aws-credentials@v1
 
-      with:
+      with: "headversityj2.zip"
 
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
 
