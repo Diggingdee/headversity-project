@@ -12,10 +12,6 @@ env:
     branches: 
     - master
     
-    jobs:
-  my_ci_part:
-    runs-on: ubuntu-latest
-     
   steps:
     - name: Git setup
       uses: actions/checkout@v2
