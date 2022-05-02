@@ -12,7 +12,9 @@ env:
   
   on:
   push:
-    branches: master
+    branches: 
+    
+    - master
     
     jobs:
   my_ci_part:    
