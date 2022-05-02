@@ -13,7 +13,6 @@ env:
   on:
   push:
     branches: 
-    
     - master
      
   steps:
@@ -27,7 +26,6 @@ env:
       with:
 
         dotnet-version: 6.0.x
---- 
 
   name: "Restore dependencies"
    
