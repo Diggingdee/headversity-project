@@ -2,61 +2,77 @@ name: Deploy dotnet EBS
 
 
 
-
 on:
   push:
     branches: [ master ]
 
 
-EBS_APP_NAME: headversity
-  EBS_ENV_NAME: headversity-devop
-  PROJECT_DIR: '.' # the repository root:
-  DOTNET_VERSION: '6.0' # The .NET SDK version to use
-  AWS_REGION: us-east-1 - name: Git setup
-        uses: actions/checkout@v2
-  
-  
+jobs:
+  my_ci_part:    runs-on: ubuntu-latest
 
 
-
-
-
-
-
-
-
-
-
-
-
+name: CI-CD-Pipeline-to-AWS-ElasticBeastalk
+env:
+  EB_PACKAGE_S3_BUCKET_NAME : "headversity-projectj"
+  EB_APPLICATION_NAME       : "myheadveristy"
+  EB_ENVIRONMENT_NAME       : "Myheadveristy-env"
+  AWS_REGION_NAME           : "us-east-1"
    
- - name: Git setup
-        uses: actions/checkout@v2
-        
-        
-        
-        - name: Dotnet run
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-          
-          
-          
-          - name: Publish prod
-        run: cd ${{ env.PROJECT_DIR }}; dotnet restore; dotnet publish -r linux-x64 --configuration "Release" --self-contained "true" -o ../site;
-        
-        
-        - name: Generate deployment package 
-        run: cd site; zip -r site.zip . -x '*.git*'
-        
-        
-        - name: Deploy to EBS
-        uses: einaregilsson/beanstalk-deploy@v16
-        with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }} # your aws access key that was added to github secret
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # your aws secret key that was added to github secret
-          application_name: ${{ env.EBS_APP_NAME }} # app name to create with when deploying
-          environment_name: ${{ env.EBS_ENV_NAME }} # environment name where to deploy the project
-          version_label: ${{ github.run_id }} # for versioning. Used to deploy an existing version in Beanstalk
-          region: ${{ env.AWS_REGION }}
-          deployment_package: site.zip
+   steps:
+    - name: Git clone our repo
+      uses: actions/checkout@v1
+      
+    - name: Setup .NET 6.0.x
+
+      uses: actions/setup-dotnet@v1
+
+      with:
+
+        dotnet-version: 6.0.x
+--- 
+- 
+  name: "Restore dependencies"
+   
+   run: dotnet restore
+   
+   - name: Publish application        
+
+   run: dotnet publish --output publish --configuration Release --framework net6.0 --runtime win-x64 --self-contained true
+
+- name: ZIP built application      
+
+   run: |
+
+        cd ./publish
+
+        zip -r ${{ env.ZIP_FILE }} .
+
+        mv ./${{ env.ZIP_FILE }} ../
+
+        cd ../           
+
+   env:   
+
+               ZIP_FILE: "headversityj2.zip"
+
+
+- name: Configure AWS credentials
+
+      uses: aws-actions/configure-aws-credentials@v1
+
+      with:
+
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+        aws-region: ${{ env.AWS_REGION }}
+
+
+ - name: Copy ZIP file into AWS S3 bucket
+
+      run: aws s3 cp ${{ env.ZIP_FILE }} s3://${{ env.AWS_BUCKET }}
+
+      env:
+
+        ZIP_FILE: "headversityj2.zip"
