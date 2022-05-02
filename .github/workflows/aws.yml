@@ -12,7 +12,7 @@ env:
   
   on:
   push:
-    branches: [ master ]
+    branches: master
     
     jobs:
   my_ci_part:    
@@ -30,7 +30,7 @@ env:
 
         dotnet-version: 6.0.x
 --- 
-- 
+
   name: "Restore dependencies"
    
    run: dotnet restore
